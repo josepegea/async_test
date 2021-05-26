@@ -3,15 +3,12 @@ require 'uri'
 require 'json'
 
 def read_text
-  res = Net::HTTP.get(URI 'https://www.gutenberg.org/files/2600/2600-0.txt')
-  STDERR.puts "Text length is #{res.length}"
-  res
+  Net::HTTP.get(URI 'https://www.gutenberg.org/files/2600/2600-0.txt')
 end
 
 def get_replacement
   res = Net::HTTP.get(URI "https://reqres.in/api/words/1")
   res = JSON.parse(res)&.fetch('data')&.fetch('name')
-  STDERR.puts "Replacement is #{res}"
   res
 end
 

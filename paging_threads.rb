@@ -15,7 +15,8 @@ $threads << Thread.new do
   total_pages = nil
   begin
     trace("Read page #{current_page}") do
-      page_data = get_from_api(page_index: page_index, page_size: page_size)
+      page_data = get_from_api(page_index: page_index,
+                               page_size: page_size)
       $down_queue << page_data['data']
       total_pages ||= page_data['total_pages']
       current_page += 1
