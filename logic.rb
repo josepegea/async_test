@@ -30,3 +30,13 @@ def upload_results(data)
   Net::HTTP.post(URI("https://reqres.in/api/texts"), data[0, 1024])
 end
 
+def get_from_api(page_index: 1, page_size: 2)
+  res = Net::HTTP.get(URI "https://reqres.in/api/words?page=#{page_index}&per_page=#{page_size}")
+  res = JSON.parse(res)
+end
+
+def process_api_data(data)
+  res = ""
+  1000.times { res += data.to_json }
+  res
+end

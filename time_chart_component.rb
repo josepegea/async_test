@@ -95,7 +95,7 @@ class TimeChartComponent < TkComponent::Base
       if slot % time_slot == 0
         TkcLine.new(@canvas.native_item, [time_to_x(slot), bar_height], [time_to_x(slot), bar_height - 8], fill: 'gray')
         TkcText.new(@canvas.native_item, [time_to_x(slot), bar_height - 7],
-                    text: format_timestamp(slot, 0), font: 'Helvetica 9', anchor: 's')
+                    text: format_timestamp(slot, 1), font: 'Helvetica 9', anchor: 's')
       else
         TkcLine.new(@canvas.native_item, [time_to_x(slot), bar_height], [time_to_x(slot), bar_height - 3], fill: 'gray')
       end
@@ -129,7 +129,7 @@ class TimeChartComponent < TkComponent::Base
     when ts < 1000
       return format("%d ms", ts.to_i)
     else
-      return format("%0.#{decimals_for_seconds}f s", ts / 1000)
+      return format("%0.#{decimals_for_seconds}f s", ts / 1000.0)
     end
   end
 

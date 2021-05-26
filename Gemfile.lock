@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/josepegea/tk_component
-  revision: cf4763d830b42b51279705367f01b8bc56271b83
+  revision: 0b7011679c0c900a446f77d8e08f0a0a6e0dc276
   branch: master
   specs:
     tk_component (0.2.0)

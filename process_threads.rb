@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'async'
-require 'async/scheduler'
-
 require_relative './trace'
 require_relative './logic'
 
