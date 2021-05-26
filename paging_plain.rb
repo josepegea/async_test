@@ -3,7 +3,6 @@
 require_relative './trace'
 require_relative './logic'
 
-$page_index = 1
 $page_size = ARGV[0] || 2
 
 $current_page = 1
@@ -11,7 +10,7 @@ $total_pages = nil
 
 begin
   page_data = trace("Read page #{$current_page}") do
-    get_from_api(page_index: $page_index, page_size: $page_size)
+    get_from_api(page_index: $current_page, page_size: $page_size)
   end
   $total_pages ||= page_data['total_pages']
   new_data = trace("Process page #{$current_page}") do
