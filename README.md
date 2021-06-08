@@ -15,10 +15,17 @@ You can find a live run through these examples in this presentation:
 - [Slides](https://speakerdeck.com/josep_egea/concurrencyinruby3-josepegea)
 - [Video](https://vimeo.com/556879297)
 
-## Displaying the results
+## Code organization
 
 The examples themselves run the tasks and write timing information to
 STDOUT.
+
+The actual Ruby logic for the tasks is the same for all examples, and
+lives in the [logic.rb](./logic.rb) file, that's required by all
+examples.
+
+The code that tracks the timings lives in [trace.rb](./trace.rb) and,
+again, it's required by the scripts.
 
 In order to make results easier to visualize, there's also a script
 that uses [tk_component](https://github.com/josepegea/tk_component) to
