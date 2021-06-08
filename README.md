@@ -38,7 +38,7 @@ bundle exec ./run_test.rb process_async.rb
 
 That should produce results like these:
 
-<./images/process_async.png>
+![Example output](./images/process_async.png)
 
 In case the script needs some arguments, enclose both the script name
 and the arguments in quotes, like here:
