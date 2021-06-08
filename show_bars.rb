@@ -17,6 +17,9 @@ $title = ARGV[0] || "Results"
 root = TkComponent::Window.new(title: $title, root: true)
 $chart = TimeChartComponent.new
 root.place_root_component($chart)
+
+root.tk_item.native_item.bind('Command-r', -> { $chart.redraw_chart })
+
 Tk.update
 
 while (l = STDIN.gets) do
