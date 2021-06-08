@@ -47,9 +47,7 @@ and the arguments in quotes, like here:
 bundle exec ./run_test.rb "paging_threads.rb 6"
 ```
 
-## Scenarios
-
-### Scenario 1: Download, process and upload data from/to several sources
+## Scenario 1: Download, process and upload data from/to several sources
 
 The script will download a big text (War and Peace) from Project
 Guttemberg and some words from an HTTP API.
@@ -68,7 +66,22 @@ it to an HTTP API.
   Ruby 3, thanks to the [async](https://github.com/socketry/async)
   Gem.
 
-### Scenario 2: String substitution in parallel
+### Takeaway for Scenario 1
+
+Both Threads and Fiber Scheduler provide concurrency.
+
+The Threads example provides more concurrency because:
+
+- Local filesystem IO operations are still blocking under the Fiber
+  Scheduler.
+- DNS lookups are blocking, too.
+
+The Async example could be made more concurrent by inverting the order
+of the the items in the last step: uploading and then saving instead
+of saving and then uploading, as the uploading will not block while
+saving will.
+
+## Scenario 2: String substitution in parallel
 
 The script will download again "War and Peace" (but the time for that
 won't be included in the results) and then perform a string
@@ -82,7 +95,20 @@ substitution on it for 5 times.
 - [cpu_ractors.rb](./cpu_ractors.rb) A Ractor (new in Ruby 3) is
   created for each of the tasks.
 
-### Scenario 3: Paging through an API
+### Takeaway for Scenario 2
+
+As expected, Async doesn't give any concurrency here, given that
+there's no IO performed in the code.
+
+Threads appear to be concurrent, but given they're running just Ruby
+code, the GIL (Global Interpreter Lock) in Ruby prevents more than one
+from being run at the same time, so threads just still the lock from
+one another and the total time is the same.
+
+However, Ractors don't suffer from the GIL problem, so they can truly
+run concurrently and take advantage of multicore processors.
+
+## Scenario 3: Paging through an API
 
 The script will read entries from a an HTTP API in batches (pages). For
 each page, it will do some string processing. When done, it will
@@ -100,3 +126,14 @@ the page size. If absent, page size defaults to 2 items per page.
   Thread reads from the second Queue and uploads the data.
 - [paging_async.rb](./paging_async.rb) Similar to the Threads script
   but using the Fiber Scheduler instead.
+
+### Takeaway for Scenario 3
+
+The results are quite similar to Scenario 1. Again, Threads are a
+little more concurrent, but just sightly. Fiber Scheduler works
+fantastically well and provides very good concurrency without having
+to worry about thread safety of the code.
+
+We couldn't run a Ractor based version because there is a problem with
+the `URI` class using class variables that makes it break when run
+under different Ractors.
